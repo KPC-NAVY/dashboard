@@ -64,3 +64,9 @@ const xx = setInterval(() => {
 document.getElementById("tmp2")!.addEventListener("click", () => {
     r = 0
 })
+
+async function main() {
+    alert(await invoke("greet", { name: prompt("greet:") }))
+}
+
+main()
