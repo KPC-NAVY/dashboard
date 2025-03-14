@@ -1,0 +1,10 @@
+{
+  "tasks": {
+    "tauri": "tauri",
+    "build": "deno run -A ./src/build.ts",
+    "build-watch": "deno run -A --watch=./src/src ./src/build.ts"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  }
+}
