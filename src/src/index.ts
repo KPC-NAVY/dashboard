@@ -1,5 +1,9 @@
-const circle_getXY = (r = 25, angle: number) => [28 + r * Math.cos(2 * Math.PI * angle), 28 + r * Math.sin(2 * Math.PI * angle)];
+/// <reference lib="dom"/>
 
+// @ts-types="./tauri.d.ts"
+import { invoke } from "./tauri.js";
+
+const circle_getXY = (r = 25, angle: number) => [28 + r * Math.cos(2 * Math.PI * angle), 28 + r * Math.sin(2 * Math.PI * angle)];
 function circle_bar(val = 0.5, svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")) {
     const rval = val * 0.8333333333333334
     const path_val = svg.getElementsByClassName("circle-val")[0]
