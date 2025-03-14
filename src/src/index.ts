@@ -20,7 +20,7 @@ function circle_bar(val = 0.5, svg = document.createElementNS("http://www.w3.org
         svg.classList.remove("max");
         path_val.setAttribute("fill", "#fa0");
         path_val.setAttribute("d", `M ${circle_getXY(25, 1 / 3).join(" ")} A 25 25 0 ${rval > 0.5 ? 1 : 0} 1 ${circle_getXY(25, 1 / 3 + rval).join(" ")} L ${circle_getXY(27, 1 / 3 + rval).join(" ")} A 27 27 0 ${rval > 0.5 ? 1 : 0} 0 ${circle_getXY(27, 1 / 3).join(" ")} Z`);
-        text.setAttribute("x", "43");
+        text.setAttribute("x", "40");
         text.setAttribute("y", "37");
         text.setAttribute("fill", "#fa0");
         text.innerHTML = Math.floor(val * 100) + ""

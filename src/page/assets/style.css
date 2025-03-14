@@ -23,6 +23,7 @@ URL: https://codepen.io/hlfcoding/pen/oXpWOV
 body {
     background: #000;
     margin: 0;
+    user-select: none;
 }
 
 /* ========コピぺゾーン======== */
@@ -86,7 +87,7 @@ body {
 .label {
     display: block;
     font: 400 32px 'Roboto Condensed';
-    letter-spacing: -1px;
+    /*letter-spacing: -1px;*/
     line-height: 1;
     padding: 1px calc(var(--gutter-size) - 3px);
     text-transform: uppercase;
