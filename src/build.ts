@@ -7,19 +7,7 @@ try {
 } catch (_) {
 }
 
-
-Deno.writeTextFileSync("./src/tauri/tauri.js", Deno.args[0] === "norust" ? "export const invoke = ()=>{}" : "export const invoke = window.__TAURI__.core.invoke;")
-
-
-const _TEMP_MAP_NAME = "./temp_map.json"
-
-await Deno.readTextFile("./deno.json")
-  .then(tx => JSON.parse(tx) as Record<string, Record<string, string>>).then(jdata => jdata.imports)
-  .then(imports => {
-    Deno.writeTextFile(_TEMP_MAP_NAME, JSON.stringify({ imports }))
-  })
-
-const importMapURL = import.meta.resolve(_TEMP_MAP_NAME)
+Deno.writeTextFileSync("./src/tauri/tauri.js", Deno.args[0] === "norust" ? "export const invoke = (...args)=>{ console.log(args) }" : "export const invoke = window.__TAURI__.core.invoke;")
 
 const result = await esbuild.build({
   plugins: [...denoPlugins()],

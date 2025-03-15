@@ -4,6 +4,9 @@ import { Dispatch, StateUpdater, useEffect, useState } from "preact/hooks";
 import { Bordered } from "./bordered.tsx";
 import { CircleBar, CircleRudder } from "./circle.tsx";
 
+// @ts-types="../tauri/tauri.d.ts"
+import { invoke } from "../tauri/tauri.js";
+
 export function App() {
   const [count, setCount] = useState(0);
   const [count2, setCount2] = useState(0);
@@ -11,7 +14,7 @@ export function App() {
   return (
     <div>
       <div className="board -clearfix">
-        <div className="piece">
+        <div className="piece" onClick={() => invoke("greet", { name: "bob" })}>
           <Bordered>DISPLAY</Bordered>
         </div>
 

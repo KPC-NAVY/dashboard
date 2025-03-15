@@ -1,1 +1,1 @@
-export const invoke = ()=>{}
+export const invoke = (...args)=>{ console.log(args) }

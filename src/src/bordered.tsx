@@ -1,7 +1,10 @@
 /** @jsx h */
 import { h } from "preact";
 
-export function Bordered(params: { children?: any; danger?: string }) {
+export function Bordered(
+  params:
+    { children?: any; danger?: string },
+) {
   return (
     <div
       className={`label -bordered ${
