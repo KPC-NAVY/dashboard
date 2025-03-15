@@ -7,7 +7,7 @@ try {
 } catch (_) {
 }
 
-Deno.writeTextFileSync("./src/tauri/tauri.js", Deno.args[0] === "norust" ? "export const invoke = (...args)=>{ console.log(args) }" : "export const invoke = window.__TAURI__.core.invoke;")
+Deno.writeTextFileSync("./src/tauri/_tauri.js", Deno.args[0] === "norust" ? "export const invoke = (...args)=>{ console.log(args) }" : "export const invoke = window.__TAURI__.core.invoke;")
 
 const result = await esbuild.build({
   plugins: [...denoPlugins()],
