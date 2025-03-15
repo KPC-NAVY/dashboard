@@ -1,0 +1,97 @@
+/** @jsx h */
+import { h } from "preact";
+import { Dispatch, StateUpdater, useEffect, useState } from "preact/hooks";
+
+import { Bordered, CircleBar, CircleRudder, Piece } from "./elements/mod.ts";
+import { usePos } from "./storage.ts";
+
+export function Display() {
+  const [pos, setPos] = usePos("display");
+  return (
+    <Piece {...pos}>
+      <Bordered>DISPLAY</Bordered>
+    </Piece>
+  );
+}
+
+export function Danger() {
+  const [pos, setPos] = usePos("danger");
+  return (
+    <Piece {...pos}>
+      <Bordered danger="1">DANGER</Bordered>
+    </Piece>
+  );
+}
+
+export function Internal() {
+  const [pos, setPos] = usePos("internal");
+  return (
+    <Piece {...pos}>
+      <Bordered striped="1">
+        <div className="text -characters" style={{ fontSize: "80px" }}>
+          内部
+        </div>
+        <div className="text">INTERNAL</div>
+        <div className="decal -blink -striped"></div>
+      </Bordered>
+    </Piece>
+  );
+}
+
+export function Output1() {
+  const [count, setCount] = useState(0);
+  const [pos, setPos] = usePos("output1");
+  return (
+    <Piece {...pos} onClick={() => startCharge(setCount)}>
+      <Bordered>OUTPUT</Bordered>
+      <CircleBar value={count} />
+    </Piece>
+  );
+}
+
+export function Angle1() {
+  const [count, setCount] = useState(0);
+  const [pos, setPos] = usePos("angle1");
+  return (
+    <Piece {...pos} onClick={() => startRad(setCount)}>
+      <Bordered>ANGLE</Bordered>
+      <CircleRudder value={count} />
+    </Piece>
+  );
+}
+
+export function Seg7() {
+  const [pos, setPos] = usePos("seg7");
+  return (
+    <Piece {...pos}>
+      <div
+        className="seg7 label"
+        style={{ width: "100px", fontSize: "90px", color: "#fa0" }}
+      >
+        123
+      </div>
+    </Piece>
+  );
+}
+
+function startCharge(setter: Dispatch<StateUpdater<number>>) {
+  let i = 0;
+  const id = setInterval(() => {
+    i += 0.002;
+    if (i >= 1) {
+      clearInterval(id);
+    }
+    setter(i);
+  }, 10);
+}
+
+function startRad(setter: Dispatch<StateUpdater<number>>) {
+  let i = 0;
+  const id = setInterval(() => {
+    i += 0.1;
+    if (i >= 180) {
+      clearInterval(id);
+    }
+    setter(i);
+  }, 10);
+}
