@@ -6,7 +6,15 @@ export interface AppSettings {
     addr: string,
 }
 
-export type elementNames = ["display", "danger", "internal", "output1", "angle1", "seg7"];
+export type elementNames = [
+    "display",
+    "danger",
+    "internal",
+    "take_off",
+    "output1",
+    "angle1",
+    "seg7",
+];
 export type ElementNames = elementNames[number];
 
 export type Pos = {
@@ -28,6 +36,9 @@ const defaultAppSettings: AppSettings = {
         },
         internal: {
             _x: 10, y: 10
+        },
+        take_off:{
+            _x: 10, y: 160
         },
         output1: {
             x: 10, _y: 10

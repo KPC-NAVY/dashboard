@@ -5,7 +5,7 @@ export function CircleBar(params: { value: number }) {
   const rval = val * 0.8333333333333334;
   if (val >= 1) {
     return (
-      <svg id="tmp" className="label circle max" viewBox="0 0 56 56">
+      <svg className="label circle max" viewBox="0 0 56 56">
         <path
           className="circle-base"
           fill="#f608"
@@ -28,7 +28,7 @@ export function CircleBar(params: { value: number }) {
     );
   } else {
     return (
-      <svg id="tmp" className="label circle" viewBox="0 0 56 56">
+      <svg className="label circle" viewBox="0 0 56 56">
         <path
           className="circle-base"
           fill="#f608"
@@ -57,7 +57,7 @@ export function CircleBar(params: { value: number }) {
 export function CircleRudder(params: { value: number }) {
   const rval = params.value * 0.00462962962962963;
   return (
-    <svg id="tmp2" className="label circle" viewBox="0 0 56 56">
+    <svg className="label circle" viewBox="0 0 56 56">
       <path
         className="circle-base"
         fill="#f608"
