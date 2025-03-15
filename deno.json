@@ -8,6 +8,16 @@
     "@tauri-apps/cli": "^2"
   },
   "imports": {
+    "preact": "npm:preact",
+    "preact/hooks": "npm:preact/hooks",
+    "preact/jsx-runtime": "npm:preact/jsx-runtime"
   },
-  "nodeModulesDir": "auto"
+  "nodeModulesDir": "auto",
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "deno.ns"
+    ]
+  }
 }
