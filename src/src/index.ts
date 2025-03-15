@@ -66,7 +66,7 @@ document.getElementById("tmp2")!.addEventListener("click", () => {
 })
 
 async function main() {
-    alert(await invoke("greet", { name: prompt("greet:") }))
+    // alert(await invoke("greet", { name: prompt("greet:") ?? "bob" }))
 }
 
 main()
