@@ -25,14 +25,31 @@ export function Danger() {
 
 export function Internal() {
   const [pos, setPos] = usePos("internal");
+  const [effect, setEffect] = useState(true);
   return (
-    <Piece {...pos}>
+    <Piece {...pos} onClick={() => startFlash(setEffect)}>
       <Bordered striped="1">
         <div className="text -characters" style={{ fontSize: "80px" }}>
           内部
         </div>
         <div className="text">INTERNAL</div>
-        <div className="decal -blink -striped"></div>
+        <div className={`decal -blink ${effect ? "-striped" : ""}`}></div>
+      </Bordered>
+    </Piece>
+  );
+}
+
+export function Takeoff() {
+  const [pos, setPos] = usePos("take_off");
+  const [effect, setEffect] = useState(true);
+  return (
+    <Piece {...pos} onClick={() => startFlash(setEffect)}>
+      <Bordered striped="1">
+        <div className="text -characters" style={{ fontSize: "80px" }}>
+          発進
+        </div>
+        <div className="text" style={{ fontSize: "40px" }}>TAKEOFF</div>
+        <div className={`decal -blink ${effect ? "-striped" : ""}`}></div>
       </Bordered>
     </Piece>
   );
@@ -88,10 +105,21 @@ function startCharge(setter: Dispatch<StateUpdater<number>>) {
 function startRad(setter: Dispatch<StateUpdater<number>>) {
   let i = 0;
   const id = setInterval(() => {
-    i += 0.1;
+    i += 0.2;
     if (i >= 180) {
       clearInterval(id);
     }
     setter(i);
   }, 10);
+}
+
+function startFlash(setter: Dispatch<StateUpdater<boolean>>) {
+  let i = 0;
+  const id = setInterval(() => {
+    i += 1;
+    if (i == 31) {
+      clearInterval(id);
+    }
+    setter(Boolean(i % 2));
+  }, 100);
 }
