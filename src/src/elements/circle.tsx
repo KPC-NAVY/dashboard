@@ -133,7 +133,7 @@ export function Compass(props: { value: number }) {
       <path
         fill="#fa0"
         className="circle-base"
-        d="M 37 37 29 28 37 19 28 27 19 19 27 28 19 37 28 29 Z"
+        d="M 37 37 29 28 37 19 28 27 19 19 27 28 19 37 28 29 Z M26 0 27 0 29 4.5 29 0 30 0 30 7 29 7 27 2.5 27 7 26 7Z"
       />
       <path
         className="circle-val"
@@ -142,17 +142,6 @@ export function Compass(props: { value: number }) {
           circle_getXY(15, 0.27 + value).join(" ")
         } L ${circle_getXY(15, 0.23 + value).join(" ")} Z`}
       />
-      <text
-        className="circle-val-txt"
-        x="34"
-        y="9"
-        fill="#fa0"
-        style={{
-          fontSize: "10px",
-        }}
-      >
-        N
-      </text>
     </svg>
   );
 }
