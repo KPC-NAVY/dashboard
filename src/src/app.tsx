@@ -1,19 +1,12 @@
 /** @jsx h */
 import { h } from "preact";
-
+import { Router } from "preact-router";
 // @ts-types="../tauri/tauri.d.ts"
 import { invoke } from "../tauri/_tauri.js";
-import {
-  Angle1,
-  Danger,
-  Display,
-  Internal,
-  Output1,
-  Seg7,
-  Takeoff,
-} from "./pieces.tsx";
 
 import { getSettings } from "./storage.ts";
+import { Header } from "./head.tsx";
+import { Main, Plane, WarShip } from "./route/mod.ts";
 /*
 <button
   type="button"
@@ -26,13 +19,12 @@ import { getSettings } from "./storage.ts";
 export function App() {
   return (
     <div className="board -clearfix">
-      <Display />
-      <Danger />
-      <Internal />
-      <Takeoff />
-      <Output1 />
-      <Angle1 />
-      <Seg7 />
+      <Header />
+      <Router>
+        <Main path="/" />
+        <WarShip path="/warship" />
+        <Plane path="/plane" />
+      </Router>
     </div>
   );
 }

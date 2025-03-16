@@ -2,7 +2,8 @@
   "tasks": {
     "tauri": "tauri",
     "build": "deno run -A ./src/build.ts",
-    "build-watch": "deno run -A --watch=./src/src ./src/build.ts"
+    "build-watch": "deno run -A --watch=./src/src ./src/build.ts",
+    "dev": "deno run --allow-net --allow-read --allow-sys https://deno.land/std@0.224.0/http/file_server.ts ./src/page/"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2"
@@ -10,7 +11,8 @@
   "imports": {
     "preact": "npm:preact@10.26.4",
     "preact/hooks": "npm:preact@10.26.4/hooks",
-    "preact/jsx-runtime": "npm:preact@10.26.4/jsx-runtime"
+    "preact/jsx-runtime": "npm:preact@10.26.4/jsx-runtime",
+    "preact-router":"npm:preact-router@4.1.2"
   },
   "nodeModulesDir": "auto",
   "compilerOptions": {
@@ -18,6 +20,10 @@
       "dom",
       "dom.iterable",
       "deno.ns"
-    ]
+    ],
+    "jsxFactory": "h",
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "strict": true
   }
 }

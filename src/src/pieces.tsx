@@ -1,21 +1,18 @@
 /** @jsx h */
 import { h } from "preact";
-import { Dispatch, StateUpdater, useEffect, useState } from "preact/hooks";
+import {
+  Dispatch,
+  StateUpdater,
+  useEffect,
+  useRef,
+  useState,
+} from "preact/hooks";
 
-import { Bordered, CircleBar, CircleRudder, Piece } from "./elements/mod.ts";
+import { Bordered, CircleBar, CircleAngle, Piece } from "./elements/mod.ts";
 import { usePos } from "./storage.ts";
 
-export function Display() {
-  const [pos, setPos] = usePos("display");
-  return (
-    <Piece {...pos}>
-      <Bordered>DISPLAY</Bordered>
-    </Piece>
-  );
-}
-
 export function Danger() {
-  const [pos, setPos] = usePos("danger");
+  const [pos, setPos] = usePos("head");
   return (
     <Piece {...pos}>
       <Bordered danger="1">DANGER</Bordered>
@@ -72,7 +69,7 @@ export function Angle1() {
   return (
     <Piece {...pos} onClick={() => startRad(setCount)}>
       <Bordered>ANGLE</Bordered>
-      <CircleRudder value={count} />
+      <CircleAngle value={count} />
     </Piece>
   );
 }

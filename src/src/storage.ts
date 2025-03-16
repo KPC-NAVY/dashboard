@@ -1,4 +1,5 @@
 import { Dispatch, StateUpdater, useEffect, useState } from "preact/hooks";
+import { create } from "./tools.ts";
 
 
 export interface AppSettings {
@@ -7,13 +8,13 @@ export interface AppSettings {
 }
 
 export type elementNames = [
-    "display",
-    "danger",
+    "head",
     "internal",
     "take_off",
     "output1",
     "angle1",
     "seg7",
+    "_popup1"
 ];
 export type ElementNames = elementNames[number];
 
@@ -28,17 +29,14 @@ const STORAGE_KEY = "AppSettings"
 const defaultAppSettings: AppSettings = {
     addr: "localhost:8100",
     position: {
-        display: {
+        head: {
             x: 10, y: 10
-        },
-        danger: {
-            x: 165, y: 10
         },
         internal: {
             _x: 10, y: 10
         },
-        take_off:{
-            _x: 10, y: 160
+        take_off: {
+            _x: 10, _y: 10
         },
         output1: {
             x: 10, _y: 10
@@ -49,6 +47,9 @@ const defaultAppSettings: AppSettings = {
         seg7: {
             x: 10, y: 60
         },
+        _popup1: {
+            x: 200, y: 200
+        }
     }
 }
 let appSettings: AppSettings;
@@ -75,21 +76,25 @@ export function setSetting<T extends keyof AppSettings>(key: T, value: AppSettin
     localStorage.setItem(STORAGE_KEY, JSON.stringify(appSettings));
 }
 
-export function setPos<T extends ElementNames>(key: T, value: Pos) {
+export function setPos(key: ElementNames, value: Pos) {
     appSettings.position[key] = value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(appSettings));
 }
 
-export function usePos<T extends ElementNames>(key: T): [Pos, Dispatch<StateUpdater<Pos>>] {
-    const [val, setter] = useState(appSettings.position[key] as Pos);
-    return [val, (pos: StateUpdater<Pos>) => {
-        if (typeof pos === "function") {
-            setPos(key, pos(appSettings.position[key]));
-        } else {
-            setPos(key, pos);
-        }
-        return setter(pos);
-    }];
+const dispatches: Record<ElementNames, Dispatch<StateUpdater<Pos>>[]> = create([
+    "head",
+    "internal",
+    "take_off",
+    "output1",
+    "angle1",
+    "seg7",
+    "_popup1"
+], [])
+
+export function usePos(key: ElementNames): [Pos, Dispatch<StateUpdater<Pos>>] {
+    const [val, dispatch] = useState(appSettings.position[key]);
+    dispatches[key].push(dispatch);
+    return [val, dispatch];
 }
 
 initStorage()
