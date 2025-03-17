@@ -1,6 +1,12 @@
 /** @jsx h */
 import { h } from "preact";
-import { Bordered, CircleAngle,CircleAngle2, CircleBar, Piece } from "../elements/mod.ts";
+import {
+  Bordered,
+  CircleAngle,
+  CircleAngle2,
+  CircleBar,
+  Piece,
+} from "../elements/mod.ts";
 import {
   Dispatch,
   StateUpdater,
