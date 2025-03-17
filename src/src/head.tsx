@@ -14,15 +14,14 @@ export function Header() {
     window.location.pathname,
   );
   useEffect(() => {
-    gamePad.on("lb", () => {
-      ref.current = (ref.current + (paths.length - 1)) % paths.length;
-      console.log(ref.current);
-      route(paths[ref.current]);
-    });
-    gamePad.on("rb", () => {
-      ref.current = (ref.current + 1) % paths.length;
-      console.log(ref.current);
-      route(paths[ref.current]);
+    gamePad.on("buttondown", (_, k) => {
+      if (k.includes("lb")) {
+        ref.current = (ref.current + (paths.length - 1)) % paths.length;
+        route(paths[ref.current]);
+      } else if (k.includes("rb")) {
+        ref.current = (ref.current + 1) % paths.length;
+        route(paths[ref.current]);
+      }
     });
   }, []);
   return (

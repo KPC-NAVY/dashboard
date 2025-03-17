@@ -15,7 +15,7 @@ import {
   useState,
 } from "preact/hooks";
 import { usePos } from "../storage.ts";
-import { gamePad } from "../pad.ts";
+import { gamePad, Keys, StickValue } from "../pad.ts";
 
 export function Main(props: { path: string }) {
   return (
@@ -55,9 +55,13 @@ function Underway() {
 function Takeoff() {
   const [effect, setEffect] = useState(true);
   useEffect(() => {
-    const f = (g: Gamepad) => setEffect(g.buttons[0].pressed);
-    gamePad.on("press", f);
-    return () => gamePad.off("press", f);
+    const f = (g: Gamepad, k: Keys[]) => {
+      if (k.includes("a")) {
+        setEffect((v) => !v);
+      }
+    };
+    gamePad.on("buttondown", f);
+    return () => gamePad.off("buttondown", f);
   }, []);
   return (
     <Bordered
@@ -76,14 +80,29 @@ function Takeoff() {
 
 function Outputs() {
   const [count, setCount] = useState(0);
+  const [motor1, setMotor1] = useState(0);
+  const [motor2, setMotor2] = useState(0);
   const [compass, setCompass] = useState(0);
 
   useEffect(() => {
-    const f = (gp: Gamepad, rad: number, len: number) => {
-      setCompass(rad / Math.PI / 2 + 0.25);
+    const f = (gp: Gamepad, val: StickValue) => {
+      val.value && setCompass(val.rad / Math.PI / 2 + 0.25);
     };
-    gamePad.on("l", f);
-    return () => gamePad.off("l", f);
+    const f2 = (_: unknown, val: number) => {
+      setMotor1(val);
+    };
+    const f3 = (_: unknown, val: number) => {
+      setMotor2(val);
+    };
+
+    gamePad.on("lstick", f);
+    gamePad.on("lvar", f2);
+    gamePad.on("rvar", f3);
+    return () => {
+      gamePad.off("lstick", f);
+      gamePad.off("lvar", f2);
+      gamePad.off("rvar", f3);
+    };
   }, []);
 
   const [pos, setPos] = usePos("output1");
@@ -92,9 +111,9 @@ function Outputs() {
       <div className="row">
         <div>
           <div className="row">
-            <CircleBar value={count} />
+            <CircleBar value={motor1} />
             <CircleAngle value={90} />
-            <CircleBar value={count} />
+            <CircleBar value={motor2} />
           </div>
           <div className="text" style={{ color: "#fa0" }}>
             MOTOR OUTPUT
