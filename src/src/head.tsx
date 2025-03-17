@@ -2,15 +2,29 @@
 import { h } from "preact";
 import { Bordered, Piece } from "./elements/mod.ts";
 import { usePos } from "./storage.ts";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { route, Router } from "preact-router";
+import { gamePad } from "./pad.ts";
 
+const paths = ["/", "/plane", "/warship"];
 export function Header() {
   const [pos, setPos] = usePos("head");
+  const ref = useRef(0);
   const [currentUrl, setCurrentUrl] = useState(
     window.location.pathname,
   );
-
+  useEffect(() => {
+    gamePad.on("lb", () => {
+      ref.current = (ref.current + (paths.length - 1)) % paths.length;
+      console.log(ref.current);
+      route(paths[ref.current]);
+    });
+    gamePad.on("rb", () => {
+      ref.current = (ref.current + 1) % paths.length;
+      console.log(ref.current);
+      route(paths[ref.current]);
+    });
+  }, []);
   return (
     <Piece {...pos}>
       <Router

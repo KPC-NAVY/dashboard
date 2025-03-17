@@ -15,6 +15,7 @@ import {
   useState,
 } from "preact/hooks";
 import { usePos } from "../storage.ts";
+import { gamePad } from "../pad.ts";
 
 export function WarShip(props: { path: string }) {
   return (
@@ -46,9 +47,9 @@ function Outputs() {
   const [pos, setPos] = usePos("output1");
   return (
     <Piece {...pos}>
-      <div style={{ display: "flex", flexDirection: "row" }}>
+      <div className="row">
         <div>
-          <div style={{ display: "flex", flexDirection: "row" }}>
+          <div className="row">
             <CircleBar value={count} />
             <CircleAngle value={90} />
             <CircleBar value={count} />
@@ -58,7 +59,7 @@ function Outputs() {
           </div>
         </div>
         <div>
-          <div style={{ display: "flex", flexDirection: "row" }}>
+          <div className="row">
             <Compass value={0.25} />
           </div>
           <div className="text" style={{ color: "#fa0" }}>

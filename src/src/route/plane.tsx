@@ -23,7 +23,7 @@ function Outputs() {
   const [pos, setPos] = usePos("output1");
   return (
     <Piece {...pos}>
-      <div style={{ display: "flex", flexDirection: "row" }}>
+      <div className="row">
         <CircleBar value={count} />
         <CircleAngle value={90} />
         <CircleAngle2 value={90} />

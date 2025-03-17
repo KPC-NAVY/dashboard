@@ -15,40 +15,83 @@ import {
   useState,
 } from "preact/hooks";
 import { usePos } from "../storage.ts";
+import { gamePad } from "../pad.ts";
 
 export function Main(props: { path: string }) {
   return (
     <div>
-      <Takeoff />
       <Outputs />
+      <Status />
     </div>
   );
 }
 
-function Takeoff() {
+function Status() {
   const [pos, setPos] = usePos("take_off");
-  const [effect, setEffect] = useState(true);
+
   return (
-    <Piece {...pos} onClick={() => startFlash(setEffect)}>
-      <Bordered striped="1">
-        <div className="text -characters" style={{ fontSize: "80px" }}>
-          発進
-        </div>
-        <div className="text" style={{ fontSize: "40px" }}>TAKEOFF</div>
-        <div className={`decal -blink ${effect ? "-striped" : ""}`}></div>
-      </Bordered>
+    <Piece {...pos}>
+      <div style={{ display: "flex", flexDirection: "column-reverse" }}>
+        <Takeoff />
+        <Underway />
+      </div>
     </Piece>
+  );
+}
+
+function Underway() {
+  return (
+    <Bordered
+      style={{ marginTop: "10px" }}
+    >
+      <div className="text -characters" style={{ fontSize: "70px" }}>
+        航行中
+      </div>
+      <div className="text" style={{ fontSize: "40px" }}>UNDERWAY</div>
+    </Bordered>
+  );
+}
+
+function Takeoff() {
+  const [effect, setEffect] = useState(true);
+  useEffect(() => {
+    const f = (g: Gamepad) => setEffect(g.buttons[0].pressed);
+    gamePad.on("press", f);
+    return () => gamePad.off("press", f);
+  }, []);
+  return (
+    <Bordered
+      striped="1"
+      onClick={() => startFlash(setEffect)}
+      style={{ marginTop: "10px" }}
+    >
+      <div className="text -characters" style={{ fontSize: "80px" }}>
+        発進
+      </div>
+      <div className="text" style={{ fontSize: "40px" }}>TAKEOFF</div>
+      <div className={`decal -blink ${effect ? "-striped" : ""}`}></div>
+    </Bordered>
   );
 }
 
 function Outputs() {
   const [count, setCount] = useState(0);
+  const [compass, setCompass] = useState(0);
+
+  useEffect(() => {
+    const f = (gp: Gamepad, rad: number, len: number) => {
+      setCompass(rad / Math.PI / 2 + 0.25);
+    };
+    gamePad.on("l", f);
+    return () => gamePad.off("l", f);
+  }, []);
+
   const [pos, setPos] = usePos("output1");
   return (
     <Piece {...pos}>
-      <div style={{ display: "flex", flexDirection: "row" }}>
+      <div className="row">
         <div>
-          <div style={{ display: "flex", flexDirection: "row" }}>
+          <div className="row">
             <CircleBar value={count} />
             <CircleAngle value={90} />
             <CircleBar value={count} />
@@ -58,8 +101,8 @@ function Outputs() {
           </div>
         </div>
         <div>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <Compass value={0.25} />
+          <div className="row">
+            <Compass value={compass} />
           </div>
           <div className="text" style={{ color: "#fa0" }}>
             DIRECTION
