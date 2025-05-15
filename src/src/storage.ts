@@ -97,4 +97,11 @@ export function usePos(key: ElementNames): [Pos, Dispatch<StateUpdater<Pos>>] {
     return [val, dispatch];
 }
 
+export function useInterval(callback: () => void, delay: number) {
+    useEffect(() => {
+        const id = setInterval(callback, delay);
+        return () => clearInterval(id);
+    }, []);
+}
+
 initStorage()

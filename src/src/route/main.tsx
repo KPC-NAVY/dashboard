@@ -14,7 +14,7 @@ import {
   useRef,
   useState,
 } from "preact/hooks";
-import { usePos } from "../storage.ts";
+import { useInterval, usePos } from "../storage.ts";
 import { gamePad, Keys, StickValue } from "../pad.ts";
 
 export function Main(props: { path: string }) {
@@ -28,7 +28,6 @@ export function Main(props: { path: string }) {
 
 function Status() {
   const [pos, setPos] = usePos("take_off");
-
   return (
     <Piece {...pos}>
       <div style={{ display: "flex", flexDirection: "column-reverse" }}>
@@ -54,6 +53,11 @@ function Underway() {
 
 function Takeoff() {
   const [effect, setEffect] = useState(true);
+
+  useInterval(() => {
+    setEffect((v) => !v);
+  }, 100);
+
   useEffect(() => {
     const f = (g: Gamepad, k: Keys[]) => {
       if (k.includes("a")) {
@@ -79,13 +83,20 @@ function Takeoff() {
 }
 
 function Outputs() {
-  const [count, setCount] = useState(0);
   const [motor1, setMotor1] = useState(0);
   const [motor2, setMotor2] = useState(0);
+  const [rad, setRad] = useState(0);
   const [compass, setCompass] = useState(0);
 
+  useInterval(() => {
+    setMotor1((v) => v >= 1 ? 1 : (v + 0.01));
+    setMotor2((v) => v >= 1 ? 1 : (v + 0.01));
+    setCompass((v) => (v + 0.03));
+    setRad((v) => v >= 180 ? 180 : (v + 2));
+  }, 50);
+
   useEffect(() => {
-    const f = (gp: Gamepad, val: StickValue) => {
+    const f = (_: Gamepad, val: StickValue) => {
       val.value && setCompass(val.rad / Math.PI / 2 + 0.25);
     };
     const f2 = (_: unknown, val: number) => {
@@ -112,7 +123,7 @@ function Outputs() {
         <div>
           <div className="row">
             <CircleBar value={motor1} />
-            <CircleAngle value={90} />
+            <CircleAngle value={rad} />
             <CircleBar value={motor2} />
           </div>
           <div className="text" style={{ color: "#fa0" }}>
