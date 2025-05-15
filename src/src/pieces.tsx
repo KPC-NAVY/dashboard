@@ -8,7 +8,7 @@ import {
   useState,
 } from "preact/hooks";
 
-import { Bordered, CircleBar, CircleAngle, Piece } from "./elements/mod.ts";
+import { Bordered, CircleAngle, CircleBar, Piece } from "./elements/mod.ts";
 import { usePos } from "./storage.ts";
 
 export function Danger() {
